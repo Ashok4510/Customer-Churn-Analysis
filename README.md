@@ -65,7 +65,7 @@ Created an interactive dashboard containing:
 ## Files Included
 - `customer_churn_analysis.ipynb` → Python analysis notebook
 - `churn_analysis.sql` → SQL queries used for analysis
-- `customer_churn_dashboard.pbix` → Power BI dashboard
+- `dashboard.pbix` → Power BI dashboard
 - `cleaned_churn.csv` → Cleaned dataset
 - `dashboard.png` → Dashboard preview image
 
