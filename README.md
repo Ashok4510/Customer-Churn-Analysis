@@ -40,8 +40,7 @@ Other points:
 - Gender makes no real difference (26.9% vs 26.2%).
 - These are links in the data, not proof of cause. For example, customers who choose long contracts may simply be different people.
 
-![Churn by contract](images/churn_by_contract.png)
-![Churn by tenure](images/churn_by_tenure.png)
+
 
 ## Dashboard
 
@@ -63,7 +62,6 @@ customer-churn-analysis/
 ├── data/cleaned_churn.csv
 ├── sql/churn_analysis.sql
 ├── notebooks/churn_analysis.ipynb
-├── images/
 ├── dashboard/
 ├── requirements.txt
 └── README.md
@@ -88,6 +86,10 @@ MySQL, Python (pandas, matplotlib), Jupyter Notebook, Power BI.
 
 - No prediction model is built here.
 - Next: train logistic regression and gradient boosting **without** `churn_score`, `churn_value` and `cltv`, then pick the customer-contact threshold using the cost of a retention offer against the value of a saved customer.
+
+
+## Dashboard Preview
+![Dashboard Preview](Dashboard.png)
 
 ## Author
 
