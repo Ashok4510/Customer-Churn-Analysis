@@ -1,92 +1,94 @@
-# Customer Churn Analysis & Retention Dashboard
+# Customer Churn Analysis
 
-## Project Overview
-This project focuses on analyzing customer churn patterns in a telecom dataset and identifying the major factors influencing customer retention. The goal of the project is to understand why customers leave the service and provide business recommendations to reduce churn and improve retention.
+Which telecom customers leave, when do they leave, and what do they have in common?
+This project answers those questions with **SQL (MySQL)** and **Python (pandas)**, and shows the results in a **Power BI dashboard**.
 
-The project was completed using Python for data cleaning and exploratory analysis, SQL for business-driven querying, and Power BI for dashboard creation and visualization.
+## Dataset
 
----
+- 7,043 customers, 32 columns (IBM's public Telco customer churn sample, cleaned).
+- One row per customer: contract, services, charges, tenure, and whether the customer churned.
+- This is a sample dataset, not data from a real company.
 
-## Tools & Technologies Used
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- MySQL
-- Power BI
-- Google Colab
+## Questions answered
 
----
+1. What is the overall churn rate?
+2. Which contract types churn the most, and is it just a tenure effect?
+3. How early do customers leave?
+4. Which services and payment methods are linked to churn?
+5. Which segment holds most of the churn?
+6. How much monthly revenue is held by churned customers?
 
-## Project Workflow
+## Key findings
 
-### 1. Data Cleaning & Preprocessing
-- Cleaned missing and inconsistent values
-- Converted data types for proper analysis
-- Created tenure groups for customer segmentation
-- Performed exploratory data analysis using Python
+| Finding | Number |
+|---|---|
+| Overall churn rate | **26.5%** (1,869 of 7,043 customers) |
+| Month-to-month churn vs two-year churn | **42.7%** vs **2.8%** (one-year: 11.3%) |
+| Month-to-month share of customers / of all churners | 55% / **88.6%** |
+| Churn rate in the first 3 months of tenure | **56.2%** (49 to 72 months: 9.5%) |
+| Churners who left within the first year | **55.5%** |
+| Fiber optic vs DSL churn | 41.9% vs 19.0% |
+| Fiber customers without / with tech support | 49.4% / 22.6% |
+| Electronic check churn vs other payment methods | 45.3% vs 15 to 19% |
+| Riskiest segment (month-to-month, fiber, no tech support) | 1,796 customers (25.5% of all), 57.5% churn, **55.3% of all churners** |
+| Monthly revenue held by churned customers | 30.5% ($139K of $456K) |
 
-### 2. SQL Business Analysis
-Used SQL queries to answer important business questions such as:
-- Which customers churn the most?
-- Which contract type has the highest churn?
-- Does monthly charge affect customer retention?
-- Which customer segments are high risk?
+Other points:
 
-### 3. Power BI Dashboard
-Created an interactive dashboard containing:
-- KPI Cards
-- Churn Analysis by Contract Type
-- Churn by Tenure Group
-- Monthly Charges Analysis
-- Internet Service Analysis
-- Interactive slicers and filters
-- Business insights and recommendations
+- The month-to-month gap holds inside every tenure band, so it is not only a tenure effect.
+- Two-year customers show 0% churn for their first 24 months, which looks like contract lock-in. So the two-year figure is partly mechanical, and month-to-month vs one-year (42.7% vs 11.3%) is the fairer comparison.
+- Gender makes no real difference (26.9% vs 26.2%).
+- These are links in the data, not proof of cause. For example, customers who choose long contracts may simply be different people.
 
----
+![Churn by contract](images/churn_by_contract.png)
+![Churn by tenure](images/churn_by_tenure.png)
 
-## Key Insights
-- Customers with month-to-month contracts showed the highest churn rate
-- Customers with lower tenure were more likely to leave early
-- Higher monthly charges were associated with increased churn
-- Internet service type had a noticeable impact on customer retention
+## Dashboard
 
----
+The Power BI dashboard (KPI cards, filters, tenure and monthly-charge trends) is in the `dashboard/` folder.
 
-## Business Recommendations
-- Encourage customers to move toward long-term contracts
-- Improve onboarding experience for new users
-- Provide retention offers for high-value customers
-- Improve engagement and customer support quality
+<!-- Add a screenshot named dashboard.png to the dashboard folder, then remove the arrows around the next line -->
+<!-- ![Dashboard](dashboard/dashboard.png) -->
 
----
+## Data notes
 
-## Files Included
-- `customer_churn_analysis.ipynb` → Python analysis notebook
-- `churn_analysis.sql` → SQL queries used for analysis
-- `dashboard.pbix` → Power BI dashboard
-- `cleaned_churn.csv` → Cleaned dataset
-- `dashboard.png` → Dashboard preview image
+- 11 customers have 0 months of tenure and were never billed. The cleaned file filled their `total_charges` with the median (1397.475). Both the SQL and the notebook set it to 0.
+- `churn_score` and `cltv` were generated by IBM. `churn_score` is built from the outcome, so it must **not** be used as a feature in any prediction model.
+- The original `Tenure_group` label "Loyal" means 13+ months, so the notebook uses plain tenure bands instead.
 
----
+## Project structure
 
-## Dashboard Preview
-![Dashboard Preview](Dashboard.png)
+```
+customer-churn-analysis/
+├── data/cleaned_churn.csv
+├── sql/churn_analysis.sql
+├── notebooks/churn_analysis.ipynb
+├── images/
+├── dashboard/
+├── requirements.txt
+└── README.md
+```
 
+## How to run
 
+**SQL (MySQL 8):** open `sql/churn_analysis.sql`, change the CSV path in Step 2, and run the file from top to bottom.
 
----
+**Python:**
 
-## What I Learned
-Through this project, I improved my understanding of:
-- Data cleaning and preprocessing
-- Exploratory data analysis
-- SQL-based business analysis
-- Power BI dashboard development
-- Converting raw data into business insights
+```bash
+pip install -r requirements.txt
+jupyter notebook notebooks/churn_analysis.ipynb
+```
 
----
+## Tools
+
+MySQL, Python (pandas, matplotlib), Jupyter Notebook, Power BI.
+
+## Limits and next steps
+
+- No prediction model is built here.
+- Next: train logistic regression and gradient boosting **without** `churn_score`, `churn_value` and `cltv`, then pick the customer-contact threshold using the cost of a retention offer against the value of a saved customer.
 
 ## Author
-Ashok Pulletikurthi
+
+Ashok Pulletikurthi, [GitHub](https://github.com/Ashok4510), [LinkedIn](https://www.linkedin.com/in/ashok-pulletikurthi-007a6b331)
